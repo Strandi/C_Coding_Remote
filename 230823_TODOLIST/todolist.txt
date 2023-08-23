@@ -1,0 +1,20 @@
+Aufgabe: Implementierung einer To-Do-Liste
+
+Erstelle ein einfaches Programm in C, das eine To-Do-Liste verwaltet. Der Benutzer soll in der Lage sein, Aufgaben hinzuzufügen und diese später abzurufen. Verwende die dynamische Speicherverwaltung, um die Aufgaben flexibel zu speichern.
+
+Anforderungen:
+
+Das Programm sollte folgende Funktionen unterstützen:
+
+Hinzufügen einer neuen Aufgabe
+Anzeigen aller vorhandenen Aufgaben
+Jede Aufgabe soll einen Titel und eine Beschreibung haben.
+
+Du musst die dynamische Speicherverwaltung verwenden, um die Aufgaben zu speichern. Verwende die Funktionen malloc() und free().
+
+Das Programm sollte eine Struktur Task verwenden, um Aufgaben zu repräsentieren:
+
+struct Task {
+    char title[100];
+    char description[200];
+};
