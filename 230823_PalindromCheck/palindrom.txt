@@ -1,0 +1,11 @@
+Aufgabe: Palindromprüfung
+
+Schreibe ein C-Programm, das überprüft, ob ein eingegebenes Wort ein Palindrom ist. Ein Palindrom ist ein Wort, das vorwärts und rückwärts gelesen gleich ist (z. B. "anna", "reittier", "lagerregal").
+
+Hier sind einige Schritte, die du befolgen kannst, um die Aufgabe zu lösen:
+
+- Lese das eingegebene Wort von der Benutzereingabe ein.
+- Erstelle ein Array, um das eingegebene Wort zu speichern.
+- Schreibe eine Funktion, die überprüft, ob das Wort ein Palindrom ist.
+- Die Funktion sollte die Zeichen im Array vergleichen, um festzustellen, ob das Wort ein Palindrom ist.
+- Gib das Ergebnis der Palindromprüfung aus.
