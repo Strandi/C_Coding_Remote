@@ -1,0 +1,11 @@
+Aufgabe: Vertauschen von Zahlen mit Pointern
+
+Schreibe ein C-Programm, das zwei eingegebene Ganzzahlen vertauscht, indem es Pointer verwendet, um auf die Werte zuzugreifen.
+
+Hier sind einige Schritte, die du befolgen kannst, um die Aufgabe zu lösen:
+
+- Lese zwei Ganzzahlen von der Benutzereingabe ein.
+- Definiere zwei Integer-Variablen und zwei Pointer auf Integer.
+- Weise den Pointern die Adressen der eingegebenen Variablen zu.
+- Verwende die Pointer, um die Werte der Variablen zu vertauschen, ohne eine temporäre Variable zu verwenden.
+- Gib die vertauschten Werte aus.
