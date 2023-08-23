@@ -1,3 +1,5 @@
+Natürlich, ich kann dir eine einfache Aufgabenstellung geben, die dir dabei helfen kann, deine Kenntnisse in C wieder aufzufrischen. Hier ist eine Aufgabe für dich:
+
 Aufgabe: Berechnung des Durchschnitts
 
 Schreibe ein C-Programm, das den Durchschnitt von einer Reihe von Zahlen berechnet. Der Benutzer sollte zuerst die Anzahl der Zahlen eingeben, für die er den Durchschnitt berechnen möchte, und dann diese Zahlen eingeben. Das Programm sollte dann den Durchschnitt der eingegebenen Zahlen ausgeben.
