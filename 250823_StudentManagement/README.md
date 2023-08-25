@@ -4,35 +4,38 @@ Dieses Projekt wurde im Rahmen einer C-Programmierübung entwickelt und dient zu
 
 ## Projektbeschreibung
 
-Das Programm ermöglicht die Eingabe, Anzeige, Bearbeitung und Löschung von Studentendaten. Es verwendet zwei Dateien (`students.txt` und `courses.txt`) zur Speicherung von Studenteninformationen und Studiengängen.
+Das Studentendatenverwaltungsprojekt ist eine Konsolenanwendung, die es Benutzern ermöglicht, Studentendaten einzugeben, anzuzeigen, zu bearbeiten und zu löschen. Die Daten jedes Studenten werden in einer strukturierten Form gespeichert, wobei folgende Informationen erfasst werden:
+
+- Vorname und Nachname des Studenten
+- Eindeutige Matrikelnummer
+- Alter des Studenten
+- Studiengang, in dem der Student eingeschrieben ist
+
+Die Anwendung ermöglicht auch die Auswahl des Studiengangs aus einer Liste von verfügbaren Studiengängen, die in der Datei `courses.txt` gespeichert sind.
 
 ## Funktionalitäten
 
-- Hinzufügen eines neuen Studenten mit Vorname, Nachname, Matrikelnummer, Alter und Studiengang.
-- Anzeigen aller gespeicherten Studentendaten.
-- Löschen eines Studenten anhand seiner Matrikelnummer.
-- Auswahl eines Studiengangs aus einer Liste beim Hinzufügen eines neuen Studenten.
+- **Hinzufügen eines neuen Studenten:** Benutzer können die Details eines neuen Studenten einschließlich Vorname, Nachname, Matrikelnummer, Alter und Studiengang erfassen. Die Matrikelnummer wird automatisch generiert, um Eindeutigkeit zu gewährleisten.
+
+- **Anzeigen aller gespeicherten Studentendaten:** Die Anwendung ermöglicht es, alle vorhandenen Studentendaten in einer übersichtlichen Tabelle anzuzeigen. Diese Ansicht enthält alle erfassten Informationen für jeden Studenten.
+
+- **Löschen eines Studenten:** Benutzer können einen Studenten anhand seiner Matrikelnummer aus der Datenbank löschen. Dies wird durch die eindeutige Matrikelnummer gewährleistet.
+
+- **Studiengangsauswahl:** Beim Hinzufügen eines neuen Studenten wird eine Liste der verfügbaren Studiengänge aus `courses.txt` angezeigt, aus der der Benutzer auswählen kann. Dadurch wird sichergestellt, dass der ausgewählte Studiengang korrekt erfasst wird.
 
 ## Projektstruktur
 
-- `main.c`: Enthält die Menüführung und Benutzerinteraktion.
-- `student.c`: Implementiert Funktionen im Zusammenhang mit Studentendaten.
-- `file.c`: Enthält Funktionen für Dateiverwaltung (Lesen, Schreiben).
+- `main.c`: Diese Datei enthält die Hauptfunktion und die Benutzerschnittstelle, einschließlich Menüführung und Nutzerinteraktion.
+
+- `student.c`: Hier sind Funktionen implementiert, die direkt mit der Verwaltung von Studentendaten verbunden sind. Dies umfasst das Hinzufügen, Löschen und Anzeigen von Studenten.
+
+- `file.c`: Diese Datei enthält Funktionen, die für die Dateiverwaltung zuständig sind. Das Lesen und Schreiben von Daten in Dateien wird hier umgesetzt.
+
+- `students.txt`: In dieser Datei werden die Studentendaten in einem strukturierten Format gespeichert.
+
+- `courses.txt`: Diese Datei enthält eine Liste der verfügbaren Studiengänge, die beim Hinzufügen eines neuen Studenten angezeigt werden.
 
 ## Verwendung
 
-1. Kompilieren Sie das Projekt mit Ihrem bevorzugten C-Compiler.
-2. Führen Sie die erzeugte ausführbare Datei aus.
-3. Folgen Sie den Menüanweisungen, um Aktionen durchzuführen.
+1. **Klonen des Repositories:** Klonen Sie dieses Repository in das gewünschte Verzeichnis auf Ihrem Computer.
 
-## Anmerkungen
-
-- Achten Sie darauf, dass die Dateien `students.txt` und `courses.txt` im gleichen Verzeichnis wie das ausführbare Programm liegen.
-- Stellen Sie sicher, dass Sie Speicherfreigabe und Dateioperationen sorgfältig handhaben, um Fehler zu vermeiden.
-- Dieses Projekt dient zu Übungszwecken und kann für Bildungszwecke verwendet werden.
-
-## Autoren
-
-- [Ihr Name]
-
-Falls Sie Fragen oder Anregungen haben, kontaktieren Sie mich bitte unter [Ihre E-Mail-Adresse].
