@@ -40,17 +40,43 @@ void addItem(struct Item *header){
 
 
 void removeItem(int to_remove, struct Item *header){
-    printf("hier in removeItem\n\n");
+
+    struct Item *counter_item = header;
+    struct Item *jiggle_item = NULL;
+    struct Item *item_to_free = NULL;
+
+    for(int i = 0; i < to_remove; i++){
+
+        if(counter_item->next_item == NULL && (i+1) < to_remove)
+            printf("Dieses Element existiert nicht!\n");
+        }
+
+        if(counter_item->next_item != NULL){
+            counter_item = counter_item->next_item;
+        }
 
 
+    item_to_free = counter_item;
+    jiggle_item = item_to_free->previous_item;
+    jiggle_item->next_item = item_to_free->next_item;
 
+    if(item_to_free->next_item != NULL){
+        counter_item = item_to_free->next_item;
+        counter_item->previous_item = jiggle_item;
+    }
+
+    free(item_to_free);
 }
+
+
+
+
 
 
 void printItems(struct Item *header){
 
     int number_of_items = 0;
-    struct Item *counter_item = header;
+    struct Item *counter_item = header->next_item;
 
     while(counter_item->next_item != NULL){
         number_of_items++;
@@ -60,6 +86,11 @@ void printItems(struct Item *header){
         printf("//////////////////////////////////\n\n");
         counter_item = counter_item->next_item;
     }
+    number_of_items++;
+    printf("\n\n//////////////////////////////////\n");
+    printf("Itemnummer: %d\n", number_of_items);
+    printf("Text: %s\n", counter_item->text);
+    printf("//////////////////////////////////\n\n");
 
 
 }
