@@ -41,11 +41,13 @@ void addItem(struct Item *header){
 
 void removeItem(int to_remove, struct Item *header){
 
-    struct Item *counter_item = header;
+    struct Item *counter_item = header->next_item;
     struct Item *jiggle_item = NULL;
     struct Item *item_to_free = NULL;
 
-    for(int i = 0; i < to_remove; i++){
+    printf("in removeItem! Nummmer = %d\n", to_remove)
+
+    for(int i = 1; i < to_remove; i++){
 
         if(counter_item->next_item == NULL && (i+1) < to_remove)
             printf("Dieses Element existiert nicht!\n");
@@ -156,9 +158,10 @@ int main(){
 
 
             case 2:
-                int to_clear;
+                int to_clear = 0;
                 printf("Nummer des zu löschenden Eintrags: ");
                 scanf("%d", &to_clear);
+                getchar()
                 removeItem(to_clear, header);
 
                 break;
