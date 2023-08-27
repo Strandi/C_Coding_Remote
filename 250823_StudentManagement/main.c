@@ -43,8 +43,8 @@ int main(){
     loadCourseData(pheader);
     //---------------------------------------------------
 
-
-    while(1){
+    int stop = 0;
+    while(stop == 0){
 
 
         printf("==========================================================\n");
@@ -83,12 +83,13 @@ int main(){
 
 
             case 4:
-                listProgramOptions(pheader);
+                listProgramOptions(pheader, header);
             break;
             
             
             case 5:
                 printf("\nProgramm wird beendet!\n\n");
+                stop = 1;
                 break;
             break;
 
@@ -98,12 +99,7 @@ int main(){
 
 
         }
-
-
-
-
     }
-
     return 0;
 }
 
@@ -115,9 +111,10 @@ int main(){
 // CASE 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // 
 // 
-void listProgramOptions(program *pheader){
+void listProgramOptions(program *pheader, student *header){
 
-    while(1){
+    int stop = 0;
+    while(stop == 0){
         int program_option;
 
 
@@ -141,11 +138,13 @@ void listProgramOptions(program *pheader){
         {
         case 1:
             addProgram(pheader);
-            updateProgramFile(pheader);
+            updateProgramFile(pheader, header);
             break;
 
 
         case 2:
+            removeProgram(pheader);
+            updateProgramFile(pheader, header);
 
             break;
 
@@ -157,6 +156,7 @@ void listProgramOptions(program *pheader){
 
         case 4: 
             printf("Studienoptionen beenden\n");
+            stop = 1;
             break;
         
 

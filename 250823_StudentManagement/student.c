@@ -195,6 +195,55 @@ void addProgram(program *pheader){
 }
 
 
+
+
+ void removeProgram(program *pheader){
+
+    printf("\n\n$§$§$§$§$§$§$§$§$§$§§$§$§$§$§$§$§$$§$§$§$§$\n");
+    printf("Löschen eines Studiengangs\n");
+    printf("Bitte geben Sie die Nummer des Studiengangs ein -> ");
+
+    // Scan matr_numb and clear buffer
+    char program_name[256];
+    scanf("%s", program_name);
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) { }
+    // -------------------------------
+
+    int number_found = 0;
+    program *counter = pheader;
+    program *program_to_remove;
+    program *previous_program;
+    program *next_program;
+
+    while (counter != NULL){
+        if(strcmp(counter->name, program_name) == 0){
+            number_found = 1;
+            program_to_remove = counter;
+            previous_program = counter->previous_program;
+            if(counter->next_program != NULL){
+                next_program = counter->next_program;
+                previous_program->next_program = next_program;
+                next_program->previous_program = previous_program;
+                free(program_to_remove);
+            }
+            if (counter->next_program == NULL){
+                previous_program->next_program = NULL;
+                free(program_to_remove);
+            }
+            break;
+        }
+        counter = counter->next_program;
+    }
+    if(number_found == 0){
+        printf("\nEs existiert kein Student mit dieser Matrikelnummer\n\n");
+    }
+
+
+ }
+
+
+
 void listAllPrograms(program *pheader){
     program *counter = pheader->next_program;
 
@@ -204,7 +253,7 @@ void listAllPrograms(program *pheader){
     int numb_counter = 0;
     while (counter != NULL){
         numb_counter++;
-        printf("Nr. %d: %s\n", numb_counter, counter->name);
+        printf("Nr. %d: %s mit %d Studierenden\n", numb_counter, counter->name, counter->number_of_students);
         counter = counter->next_program;
     }
 }
@@ -235,4 +284,6 @@ void addCoursesFromFile(program *pheader, program *program_to_add){
     program_to_add->next_program = NULL;
     program_to_add->previous_program = counter;
 }
+
+
 

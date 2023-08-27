@@ -1,1 +1,1 @@
-Elektrotechnik;34;Informatik;123;Biologie;54;Archäologie;32;Biomedical Engineering;0;Sexualkunde;0;
+Elektrotechnik;34;Informatik;123;Biologie;54;Archäologie;32;Biomedical Engineering;0;

@@ -113,7 +113,7 @@ void updateStudentFile(student *header){
 // UPDATE PROGRAMS FILE -----------------
 //
 //
-void updateProgramFile(program *pheader){
+void updateProgramFile(program *pheader, student *header){
     FILE *coursefile;
     coursefile = fopen("courses.txt", "w");
     if (coursefile == NULL) {
@@ -121,19 +121,35 @@ void updateProgramFile(program *pheader){
         return;
     }
 
+    
 
     program *counter = pheader ->next_program;
+    int number_of_students_in_program = 0;
+    int *ptr_number_of_students = &number_of_students_in_program;
 
     while(counter != NULL){
+        countStudentsOfProgram(ptr_number_of_students, counter->name, header);
         fprintf(coursefile, "%s;", counter->name);
-        fprintf(coursefile, "%d;", counter->number_of_students);
+        fprintf(coursefile, "%d;", number_of_students_in_program);
         fflush(coursefile);
 
 
-        counter = counter->next_program;
-        
+        counter = counter->next_program;   
     }
+}
 
 
 
+
+
+void countStudentsOfProgram(int *number, char program[256], student *header){
+    student *counter = header->next_student;
+
+
+    while(counter != NULL){
+        if(strcmp(counter->program, program) == 0){
+        (*number)++;
+        }
+        counter = counter->next_student;
+    }
 }

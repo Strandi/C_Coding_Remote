@@ -30,11 +30,13 @@ void addStudent(student *header);
 void listStudents(student *header);
 void removeStudent(student *header);
 
-void listProgramOptions();
+void listProgramOptions(program *pheader, student *header);
 void addProgram(program *pheader);
+void removeProgram(program *pheader);
 void listAllPrograms(program *pheader);
 
 void updateStudentFile(student *header);
-void updateProgramFile(program *pheader);
+void updateProgramFile(program *pheader, student *header);
+void countStudentsOfProgram(int *number, char program[256], student *header);
 
 #endif
