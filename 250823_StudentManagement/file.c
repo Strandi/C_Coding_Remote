@@ -113,8 +113,26 @@ void updateStudentFile(student *header){
 // UPDATE PROGRAMS FILE -----------------
 //
 //
-void updateProgramFile(program *header){
+void updateProgramFile(program *pheader){
+    FILE *coursefile;
+    coursefile = fopen("courses.txt", "w");
+    if (coursefile == NULL) {
+        perror("Fehler beim Öffnen der Datei 'students.txt'\n");
+        return;
+    }
 
+
+    program *counter = pheader ->next_program;
+
+    while(counter != NULL){
+        fprintf(coursefile, "%s;", counter->name);
+        fprintf(coursefile, "%d;", counter->number_of_students);
+        fflush(coursefile);
+
+
+        counter = counter->next_program;
+        
+    }
 
 
 
