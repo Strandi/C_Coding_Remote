@@ -1,0 +1,4 @@
+Elektrotechnik;34
+Informatik;123
+Biologie;54
+Archäologie;32

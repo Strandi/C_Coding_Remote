@@ -1,0 +1,8 @@
+Andreas;Stroißmüller;1180794;26;Informatik
+Andres;Stroißmüller;1180744;26;Informatik
+Andeas;Stroißmüller;1187944;26;Informatik
+Adreas;Stroißmüller;1107944;26;Informatik
+ndreas;Stroißmüller;117944;26;Informatik
+Andas;Stroißmüller;117944;26;Informatik
+Anas;Stroißmüller;11944;26;Informatik
+Marita;Lazer;21659854;26;Informatik
