@@ -1,0 +1,698 @@
+
+
+
+main.c:
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include "headerfile.h"
+
+
+
+
+
+int main(){
+
+
+
+
+
+    int number_of_students = 10;
+    printf("\n\n\n\n==============================================================================================\n");
+    printf("Willkommen im Studentenverwaltungsprogramm!\n");
+    printf("Momentan sind %d Studenten an unserer Universität beschäftigt.\n", number_of_students);
+    printf("==============================================================================================\n\n\n");
+
+
+    int option = 0;
+
+    // init student header-------------------------------
+    student *header = (student *)malloc(sizeof(student));
+    header->previous_student = NULL;
+    header->next_student = NULL;
+    // --------------------------------------------------
+
+    // init program header-------------------------------
+    program *pheader = (program *)malloc(sizeof(program));
+    pheader->previous_program = NULL;
+    pheader->next_program = NULL;
+    // --------------------------------------------------
+
+
+    // load student data from file ----------------------
+    loadStudentData(header);
+    //---------------------------------------------------
+
+    // load course data from file ----------------------
+    loadCourseData(pheader);
+    //---------------------------------------------------
+
+    int stop = 0;
+    while(stop == 0){
+
+
+        printf("==========================================================\n");
+        printf("Sie haben nun die Möglichkeit aus den untenstehenden Optionen zu wählen\n\n");
+        printf("1: Neuen Studenten hinzufügen\n");
+        printf("2: Azeigen aller Studenten\n");
+        printf("3: Löschen eines Studenten\n");
+        printf("4: Studiengangsoptionen\n");
+        printf("5: Beenden\n");
+        printf("Bitte geben Sie eine Nummer ein: ");
+        scanf("%d", &option);
+        getchar();
+        printf("==========================================================\n\n\n");
+
+
+
+
+
+        switch(option){
+
+            case 1:
+                addStudent(header);
+                updateStudentFile(header);
+            break;
+
+
+            case 2:
+                listStudents(header);
+            break;
+
+
+            case 3:
+                removeStudent(header);
+                updateStudentFile(header);
+            break;
+
+
+            case 4:
+                listProgramOptions(pheader, header);
+            break;
+
+
+            case 5:
+                printf("\nProgramm wird beendet!\n\n");
+                freeEverything(header, pheader);
+                stop = 1;
+                break;
+            break;
+
+
+            default:
+            printf("Heast gib hald amal was ein was a an Sinn ergibt! Wappler!\n\n");
+
+
+        }
+    }
+    return 0;
+}
+
+
+
+
+
+
+// CASE 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//
+//
+void listProgramOptions(program *pheader, student *header){
+
+    int stop = 0;
+    while(stop == 0){
+        int program_option;
+
+
+
+        printf("\n\n<<-------- Studiengangsoptionen -------->>\n");
+        printf("Was möchten Sie tun?\n");
+        printf("1 - Studiengang hinzufügen\n");
+        printf("2 - Studiengang löschen\n");
+        printf("3 - Alle Studiengänge anzeigen\n");
+        printf("4 - Studiengangsoptionen beenden\n");
+        printf("Bitte wählen Sie eine Option -> ");
+        scanf("%d", &program_option);
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+
+
+
+
+
+        switch (program_option)
+        {
+        case 1:
+            addProgram(pheader);
+            updateProgramFile(pheader, header);
+            break;
+
+
+        case 2:
+            removeProgram(pheader);
+            updateProgramFile(pheader, header);
+
+            break;
+
+
+        case 3:
+            listAllPrograms(pheader);
+            break;
+
+
+        case 4:
+            printf("Studienoptionen beenden\n");
+            stop = 1;
+            break;
+
+
+
+        default:
+            printf("Illegale Option!\n");
+            break;
+        }
+    }
+}
+
+
+
+
+void freeEverything(student *header, program *pheader) {
+    // Freigeben der Studentenliste
+    student *scounter = header->next_student;
+    while (scounter != NULL) {
+        student *current_student = scounter;
+        scounter = scounter->next_student;
+        free(current_student);
+    }
+
+    // Freigeben der Programmliste
+    program *pcounter = pheader->next_program;
+    while (pcounter != NULL) {
+        program *current_program = pcounter;
+        pcounter = pcounter->next_program;
+        free(current_program);
+    }
+
+    // Freigeben der Header-Strukturen
+    free(header);
+    free(pheader);
+}
+
+
+student.c:
+
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include "headerfile.h"
+
+
+
+
+
+
+
+void chooseProgram(char program[256]){
+    strcpy(program, "Informatik");
+}
+
+
+int checkMatrNumb(int mat_numb, student *header){
+
+    student *counter = header;
+
+    if(counter->next_student != NULL){
+        counter = counter->next_student;
+    }
+
+
+    while (counter->next_student != NULL){
+        if(counter->mat_numb == mat_numb){
+            printf("------420-----------\n");
+            return 420;
+        }
+        counter = counter->next_student;
+    }
+
+
+    return 69;
+}
+
+
+
+
+// CASE 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+void addStudent(student *header){
+
+
+    student *student_to_add = (student *)malloc(sizeof(student));
+    student *counter = header;
+
+    while (counter->next_student != NULL){
+        counter = counter->next_student;
+    }
+    counter->next_student = student_to_add;
+    student_to_add->next_student = NULL;
+    student_to_add->previous_student = counter;
+
+
+
+    int specs_ok = 0;
+
+    while(specs_ok != 1){
+
+        printf("\nHinzufügen eines neuen Studenten\n\n");
+
+        printf("Bitte geben Sie den Vornamen des Studenten ein -> ");
+        fgets(student_to_add->first_name, sizeof(student_to_add->first_name), stdin);
+        student_to_add->first_name[strcspn(student_to_add->first_name, "\n")] = '\0';
+        printf("Bitte geben Sie den Nachnamen des Studenten ein -> ");
+        fgets(student_to_add->last_name, sizeof(student_to_add->last_name), stdin);
+        student_to_add->last_name[strcspn(student_to_add->last_name, "\n")] = '\0';
+        printf("Bitte geben Sie die Matrikelnummer des Studenten ein -> ");
+        scanf("%d", &student_to_add->mat_numb);
+        printf("Bitte geben Sie das Alter des Studenten ein -> ");
+        scanf("%d", &student_to_add->age);
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+        printf("Bitte wählen Sie aus der Liste den gewünschten Studiengang aus\n");
+
+        char program[256];
+        chooseProgram(program);
+        strcpy(student_to_add->program, program);
+
+        printf("%s\n", student_to_add->first_name);
+        printf("%s\n", student_to_add->last_name);
+        printf("%d\n", student_to_add->mat_numb);
+        printf("%d\n", student_to_add->age);
+        printf("%s\n", student_to_add->program);
+
+        if(checkMatrNumb(student_to_add->mat_numb, header) == 69){
+            specs_ok = 1;
+            printf("------inCHECKMATRNUMB--------\n");
+        }else{
+            printf("Die eingegebene Matrikelnummer existiert bereits!\n");
+        }
+    }
+}
+
+
+// CASE 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+void listStudents(student *header){
+
+    student *counter = header->next_student;
+    int count = 1;
+
+    while(counter->next_student != NULL){
+        printf("%d ------------------------------------------\n", count);
+        printf("Vorname: %s\n", counter->first_name);
+        printf("Nachname: %s\n", counter->last_name);
+        printf("Matrikelnummer: %d\n", counter->mat_numb);
+        printf("Alter: %d\n", counter->age);
+        printf("Studienrichtung: %s\n", counter->program);
+        printf("------------------------------------------\n\n\n");
+
+        count++;
+        counter = counter->next_student;
+    }
+    printf("%d ------------------------------------------\n", count);
+        printf("Vorname: %s\n", counter->first_name);
+        printf("Nachname: %s\n", counter->last_name);
+        printf("Matrikelnummer: %d\n", counter->mat_numb);
+        printf("Alter: %d\n", counter->age);
+        printf("Studienrichtung: %s\n", counter->program);
+        printf("------------------------------------------\n\n\n");
+}
+
+
+// CASE 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+void removeStudent(student *header){
+    printf("\n\n$§$§$§$§$§$§$§$§$§$§§$§$§$§$§$§$§$$§$§$§$§$\n");
+    printf("Löschen eines Studenten\n");
+    printf("Bitte geben Sie die Matrikelnummer des Studenten ein -> ");
+
+    // Scan matr_numb and clear buffer
+    int matr_numb = 0;
+    scanf("%d", &matr_numb);
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) { }
+    // -------------------------------
+
+    int mat_numb_found = 0;
+    student *counter = header;
+    student *student_to_remove;
+    student *previous_student;
+    student *next_student;
+
+    while (counter != NULL){
+        if(counter->mat_numb == matr_numb){
+            mat_numb_found = 1;
+            if(counter->next_student != NULL){
+                student_to_remove = counter;
+                previous_student = counter->previous_student;
+                next_student = counter->next_student;
+                previous_student->next_student = next_student;
+                next_student->previous_student = previous_student;
+                free(student_to_remove);
+            }
+            if (counter->next_student == NULL){
+                student_to_remove = counter;
+                previous_student = counter->previous_student;
+                previous_student->next_student = NULL;
+                free(student_to_remove);
+            }
+            break;
+        }
+        counter = counter->next_student;
+    }
+    if(mat_numb_found == 0){
+        printf("\nEs existiert kein Student mit dieser Matrikelnummer\n\n");
+    }
+
+}
+
+
+void addProgram(program *pheader){
+
+    char program_name[256];
+    program *program_to_add = (program *)malloc(sizeof(program));
+    program *counter = pheader;
+
+
+    printf("\n\n--------------------------------------\n");
+    printf("+++++Einen Studiengang hinzufügen+++++\n");
+    printf("Bitte gib den Namen des neuen Studiengangs ein -> ");
+    scanf("%[^\n]", program_name);
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) { }
+    strcpy(program_to_add->name, program_name);
+
+    while (counter->next_program != NULL){
+        counter = counter->next_program;
+    }
+    counter->next_program = program_to_add;
+    program_to_add->previous_program = counter;
+    program_to_add->next_program = NULL;
+}
+
+
+
+
+ void removeProgram(program *pheader){
+
+    printf("\n\n$§$§$§$§$§$§$§$§$§$§§$§$§$§$§$§$§$$§$§$§$§$\n");
+    printf("Löschen eines Studiengangs\n");
+    printf("Bitte geben Sie die Nummer des Studiengangs ein -> ");
+
+    // Scan matr_numb and clear buffer
+    char program_name[256];
+    scanf("%s", program_name);
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) { }
+    // -------------------------------
+
+    int number_found = 0;
+    program *counter = pheader;
+    program *program_to_remove;
+    program *previous_program;
+    program *next_program;
+
+    while (counter != NULL){
+        if(strcmp(counter->name, program_name) == 0){
+            number_found = 1;
+            program_to_remove = counter;
+            previous_program = counter->previous_program;
+            if(counter->next_program != NULL){
+                next_program = counter->next_program;
+                previous_program->next_program = next_program;
+                next_program->previous_program = previous_program;
+                free(program_to_remove);
+            }
+            if (counter->next_program == NULL){
+                previous_program->next_program = NULL;
+                free(program_to_remove);
+            }
+            break;
+        }
+        counter = counter->next_program;
+    }
+    if(number_found == 0){
+        printf("\nEs existiert kein Student mit dieser Matrikelnummer\n\n");
+    }
+
+
+ }
+
+
+
+void listAllPrograms(program *pheader){
+    program *counter = pheader->next_program;
+
+
+    printf("\n\n<<<------- Liste aller Studiengänge ------->>>\n");
+
+    int numb_counter = 0;
+    while (counter != NULL){
+        numb_counter++;
+        printf("Nr. %d: %s mit %d Studierenden\n", numb_counter, counter->name, counter->number_of_students);
+        counter = counter->next_program;
+    }
+}
+
+
+
+
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+void addStudentsFromFile(student *header, student *student_to_add){
+    student *counter = header;
+
+    while (counter->next_student != NULL){
+        counter = counter->next_student;
+    }
+    counter->next_student = student_to_add;
+    student_to_add->next_student = NULL;
+    student_to_add->previous_student = counter;
+}
+
+void addCoursesFromFile(program *pheader, program *program_to_add){
+    program *counter = pheader;
+
+    while (counter->next_program != NULL){
+        counter = counter->next_program;
+    }
+    counter->next_program = program_to_add;
+    program_to_add->next_program = NULL;
+    program_to_add->previous_program = counter;
+}
+
+
+
+file.c:
+
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include "headerfile.h"
+
+
+
+
+
+
+void loadStudentData(student *header){
+    FILE *studentfile;
+    studentfile = fopen("students.txt", "r");
+    if(studentfile == NULL){
+        printf("\nDie eingetragenen Studenten konnten nicht abgerufen werden!\n\n");
+        return;
+    }
+
+
+    char first_name[256];
+    char last_name[256];
+    int matr_numb = 0;
+    int age = 0;
+    char program[256];
+    while(fscanf(studentfile, "%[^;];%[^;];%d;%d;%s%*c",
+                                                    first_name,
+                                                    last_name,
+                                                    &matr_numb,
+                                                    &age,
+                                                    program
+                                                    ) != EOF){
+        student *student_to_add = (student *)malloc(sizeof(student));
+        addStudentsFromFile(header, student_to_add);
+        strcpy(student_to_add->first_name, first_name);
+        strcpy(student_to_add->last_name, last_name);
+        student_to_add->mat_numb = matr_numb;
+        student_to_add->age = age;
+        strcpy(student_to_add->program, program);
+
+    }
+
+
+    fclose(studentfile);
+}
+
+
+
+void loadCourseData(program *pheader){
+    FILE *coursefile;
+    coursefile = fopen("courses.txt", "r");
+
+    if(coursefile == NULL){
+        printf("\nDie eingetragenen Studienrichtungen konnten nicht abgerufen werden!\n\n");
+        return;
+    }
+
+
+    char program_name[256];
+    int number_of_students = 0;
+
+    while(fscanf(coursefile, "%[^;];%d%*c",
+                                                    program_name,
+                                                    &number_of_students
+                                                    ) != EOF){
+        program *program_to_add = (program *)malloc(sizeof(program));
+        addCoursesFromFile(pheader, program_to_add);
+        strcpy(program_to_add->name, program_name);
+        program_to_add->number_of_students = number_of_students;
+
+    }
+
+
+    fclose(coursefile);
+}
+
+
+
+
+
+
+
+
+// UPDATE STUDENTS FILE -----------------
+//
+//
+void updateStudentFile(student *header){
+    FILE *studentfile;
+    studentfile = fopen("students.txt", "w");
+    if (studentfile == NULL) {
+        perror("Fehler beim Öffnen der Datei 'students.txt'\n");
+        return;
+    }
+
+
+    student *counter = header ->next_student;
+
+    while(counter != NULL){
+        fprintf(studentfile, "%s;", counter->first_name);
+        fprintf(studentfile, "%s;", counter->last_name);
+        fprintf(studentfile, "%d;", counter->mat_numb);
+        fprintf(studentfile, "%d;", counter->age);
+        fprintf(studentfile, "%s\n", counter->program);
+        fflush(studentfile);
+
+
+        counter = counter->next_student;
+
+    }
+}
+
+
+
+// UPDATE PROGRAMS FILE -----------------
+//
+//
+void updateProgramFile(program *pheader, student *header){
+    FILE *coursefile;
+    coursefile = fopen("courses.txt", "w");
+    if (coursefile == NULL) {
+        perror("Fehler beim Öffnen der Datei 'students.txt'\n");
+        return;
+    }
+
+
+
+    program *counter = pheader ->next_program;
+    int number_of_students_in_program = 0;
+    int *ptr_number_of_students = &number_of_students_in_program;
+
+    while(counter != NULL){
+        countStudentsOfProgram(ptr_number_of_students, counter->name, header);
+        fprintf(coursefile, "%s;", counter->name);
+        fprintf(coursefile, "%d;", number_of_students_in_program);
+        fflush(coursefile);
+
+
+        counter = counter->next_program;
+    }
+}
+
+
+
+
+
+void countStudentsOfProgram(int *number, char program[256], student *header){
+    student *counter = header->next_student;
+
+
+    while(counter != NULL){
+        if(strcmp(counter->program, program) == 0){
+        (*number)++;
+        }
+        counter = counter->next_student;
+    }
+}
+
+
+headerfile.h:
+
+#ifndef HEADERFILE_H
+#define HEADERFILE_H
+
+typedef struct student_struct{
+    struct student_struct *previous_student;
+    struct student_struct *next_student;
+    char first_name[256];
+    char last_name[256];
+    int mat_numb;
+    int age;
+    char program[256];
+}student;
+
+
+typedef struct program_struct{
+    struct program_struct *previous_program;
+    struct program_struct *next_program;
+    char name[256];
+    int number_of_students;
+}program;
+
+
+
+void loadStudentData(student *header);
+void loadCourseData(program *pheader);
+void addStudentsFromFile(student *header, student *student_to_add);
+void addCoursesFromFile(program *pheader, program *program_to_add);
+
+void addStudent(student *header);
+void listStudents(student *header);
+void removeStudent(student *header);
+
+void listProgramOptions(program *pheader, student *header);
+void addProgram(program *pheader);
+void removeProgram(program *pheader);
+void listAllPrograms(program *pheader);
+
+void updateStudentFile(student *header);
+void updateProgramFile(program *pheader, student *header);
+void countStudentsOfProgram(int *number, char program[256], student *header);
+
+void freeEverything(student *header, program *pheader);
+
+#endif

@@ -39,4 +39,6 @@ void updateStudentFile(student *header);
 void updateProgramFile(program *pheader, student *header);
 void countStudentsOfProgram(int *number, char program[256], student *header);
 
+void freeEverything(student *header, program *pheader);
+
 #endif

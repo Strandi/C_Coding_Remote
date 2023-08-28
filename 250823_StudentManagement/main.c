@@ -89,6 +89,7 @@ int main(){
             
             case 5:
                 printf("\nProgramm wird beendet!\n\n");
+                freeEverything(header, pheader);
                 stop = 1;
                 break;
             break;
@@ -166,4 +167,29 @@ void listProgramOptions(program *pheader, student *header){
             break;
         }
     }
+}
+
+
+
+
+void freeEverything(student *header, program *pheader) {
+    // Freigeben der Studentenliste
+    student *scounter = header->next_student;
+    while (scounter != NULL) {
+        student *current_student = scounter;
+        scounter = scounter->next_student;
+        free(current_student);
+    }
+
+    // Freigeben der Programmliste
+    program *pcounter = pheader->next_program;
+    while (pcounter != NULL) {
+        program *current_program = pcounter;
+        pcounter = pcounter->next_program;
+        free(current_program);
+    }
+
+    // Freigeben der Header-Strukturen
+    free(header);
+    free(pheader);
 }
